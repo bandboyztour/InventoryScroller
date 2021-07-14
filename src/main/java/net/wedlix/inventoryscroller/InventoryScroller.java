@@ -2,7 +2,7 @@ package net.wedlix.inventoryscroller;
 
 import net.wedlix.inventoryscroller.listener.SlotSwitcherListener;
 import net.wedlix.inventoryscroller.logic.BaseSlotSwitcherLogicImpl;
-import net.wedlix.inventoryscroller.logic.ShiftSlotSwitcherLogic;
+import net.wedlix.inventoryscroller.logic.proxy.ShiftSlotSwitcherLogicProxy;
 import net.wedlix.inventoryscroller.logic.SlotSwitcherLogic;
 import net.wedlix.inventoryscroller.repository.Repository;
 import net.wedlix.inventoryscroller.repository.RepositoryImpl;
@@ -18,7 +18,9 @@ public class InventoryScroller extends JavaPlugin {
     public void onEnable() {
         Repository repository = new RepositoryImpl();
 
-        SlotSwitcherLogic slotSwitcherLogic = new ShiftSlotSwitcherLogic(repository);
+        BaseSlotSwitcherLogicImpl baseSlotSwitcherLogic = new BaseSlotSwitcherLogicImpl(repository);
+
+        SlotSwitcherLogic slotSwitcherLogic = new ShiftSlotSwitcherLogicProxy(baseSlotSwitcherLogic);
 
         Listener listener = new SlotSwitcherListener(
                 slotSwitcherLogic,
